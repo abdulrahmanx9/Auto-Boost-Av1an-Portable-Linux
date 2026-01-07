@@ -97,17 +97,14 @@ sudo cp libwwxd.so /usr/local/lib/vapoursynth/
 ```
 
 **Install VSZIP (Metrics):**
-We recommend the `dnjulek` fork and Zig 0.15.2 (latest stable).
+We recommend using the automated build script provided in the repository.
 ```bash
-# Get Zig 0.15.2
-wget "https://ziglang.org/download/0.15.2/zig-x86_64-linux-0.15.2.tar.xz" -O zig.tar.xz
-mkdir -p zig_compiler && tar -xf zig.tar.xz -C zig_compiler --strip-components=1
-
-# Build Plugin
 git clone https://github.com/dnjulek/vapoursynth-zip.git vszip
-cd vszip
-../zig_compiler/zig build -Doptimize=ReleaseFast
-sudo cp zig-out/lib/libvszip.so /usr/local/lib/vapoursynth/
+cd vszip/build-help
+chmod +x build.sh
+./build.sh
+# Ensure the plugin is in your VapourSynth path (e.g., /usr/local/lib/vapoursynth)
+sudo cp ../zig-out/lib/libvszip.so /usr/local/lib/vapoursynth/
 ```
 
 *Alternatively, you can install the `fssimu2` binary and place it in your PATH to avoid needing `vszip`.*

@@ -31,6 +31,6 @@ This project relies on the following specific versions and forks of software. Th
 ## Build Tools
 
 *   **Rust**: Stable (via rustup)
-*   **Zig**: **0.15.2** (Manually downloaded for VSZIP build)
+*   **Zig**: **Latest Stable** (Handled automatically by VSZIP `build.sh`)
 *   **Clang**: Repository Version (for SVT-AV1 PGO build)
 *   **GCC/Make/CMake**: Standard build essentials.

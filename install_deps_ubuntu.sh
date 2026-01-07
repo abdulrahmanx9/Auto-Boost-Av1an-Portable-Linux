@@ -38,7 +38,7 @@ echo "Updating apt..."
 apt update
 echo "Installing System Packages..."
 # Added build deps for VapourSynth (cython3, libzimg-dev) and python libs
-apt install -y software-properties-common ffmpeg x264 mkvtoolnix mkvtoolnix-gui python3 python3-pip git curl wget build-essential cmake pkg-config autoconf automake libtool yasm nasm clang libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavdevice-dev libavfilter-dev cython3 libzimg-dev python3-numpy python3-psutil python3-rich
+apt install -y software-properties-common ffmpeg x264 mkvtoolnix mkvtoolnix-gui python3 python3-pip git curl wget build-essential cmake pkg-config autoconf automake libtool yasm nasm clang libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavdevice-dev libavfilter-dev cython3 libzimg-dev python3-numpy python3-psutil python3-rich jq
 
 # 3. Python Libraries (Install FIRST to allow source VS build to overwrite pip version)
 echo "Installing Python Libraries..."
@@ -243,32 +243,25 @@ if [ -d "vszip" ]; then rm -rf vszip; fi
 git clone https://github.com/dnjulek/vapoursynth-zip.git vszip
 cd vszip
 
-# Download Portable Zig (Linux x86_64) - using 0.15.2 (Latest Stable)
-ZIG_VER="0.15.2"
-if [ ! -d "zig_compiler" ]; then
-    echo "Fetching Zig ${ZIG_VER}..."
-    wget "https://ziglang.org/download/${ZIG_VER}/zig-x86_64-linux-${ZIG_VER}.tar.xz" -O zig.tar.xz
+# Download Portable Zig (Linux x86_64) - handled by repo script now
+cd build-help
+chmod +x build.sh
+./build.sh
+
+# Correctly place the plugin (build.sh puts it in /usr/lib/vapoursynth)
+if [ -f "../zig-out/lib/libvszip.so" ]; then
+    echo "Installing VSZIP to verified plugin path..."
+    cp "../zig-out/lib/libvszip.so" "$VS_PLUGIN_PATH/libvszip.so"
     
-    mkdir -p zig_compiler
-    tar -xf zig.tar.xz -C zig_compiler --strip-components=1
-fi
-
-# Build with Zig
-echo "Building VSZIP with Zig..."
-./zig_compiler/zig build -Doptimize=ReleaseFast
-
-# Install
-if [ -f "zig-out/lib/libvszip.so" ]; then
-    echo "Installing VSZIP..."
-    cp zig-out/lib/libvszip.so "$VS_PLUGIN_PATH/libvszip.so"
+    # Ensure fallback path also has it
     if [ -d "/usr/lib/x86_64-linux-gnu/vapoursynth" ]; then
-        cp zig-out/lib/libvszip.so "/usr/lib/x86_64-linux-gnu/vapoursynth/libvszip.so"
+        cp "../zig-out/lib/libvszip.so" "/usr/lib/x86_64-linux-gnu/vapoursynth/libvszip.so"
     fi
     echo "VSZIP installed successfully."
 else
     echo "ERROR: VSZIP Compilation failed!"
 fi
-cd ..
+cd ../..
     
     # Refresh libs
     ldconfig
