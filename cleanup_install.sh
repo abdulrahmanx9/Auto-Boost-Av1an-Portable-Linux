@@ -45,6 +45,10 @@ rm -rf /usr/local/include/ffms2
 # 4. Plugins
 echo "- Removing VapourSynth Plugins..."
 rm -rf /usr/local/lib/vapoursynth  # This contains wwxd, vszip usually
+rm -rf /usr/lib/x86_64-linux-gnu/vapoursynth # Fallback path used by installer
+
+# 4b. Python Module Symlink (Manual Install)
+rm -vf /usr/lib/python3/dist-packages/vapoursynth.so
 
 # 5. PkgConfig
 echo "- Removing PkgConfig files..."

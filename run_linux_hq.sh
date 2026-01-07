@@ -44,7 +44,7 @@ for f in *-source.mkv; do
     echo "-------------------------------------------------------------------------------"
     
     # High Quality Params (Tune 3, DLF 2, Spy 2, etc.)
-    python3 "Auto-Boost-Av1an.py" -i "$f" --scenes "${filename_no_ext}_scenedetect.json" --quality high --ssimu2 --resume --verbose --fast-speed 8 --final-speed 2 --photon-noise 2 --workers "$WORKER_COUNT" --fast-params "--psy-rd 1.5 --complex-hvs 1 --luminance-qp-bias 20 --qm-min 8 --keyint -1 --tune 3 --spy-rd 2 --enable-dlf 2 --qp-scale-compress-strength 3 --chroma-qm-min 10" --final-params "--psy-rd 1.5 --complex-hvs 1 --luminance-qp-bias 20 --qm-min 8 --keyint -1 --tune 3 --spy-rd 2 --enable-dlf 2 --qp-scale-compress-strength 3 --chroma-qm-min 10 --lp 3"
+    python3 "Auto-Boost-Av1an.py" -i "$f" --scenes "${filename_no_ext}_scenedetect.json" --quality high --resume --verbose --fast-speed 8 --final-speed 2 --photon-noise 2 --workers "$WORKER_COUNT" --fast-params "--psy-rd 1.5 --complex-hvs 1 --luminance-qp-bias 20 --qm-min 8 --keyint -1 --tune 3 --spy-rd 2 --enable-dlf 2 --qp-scale-compress-strength 3 --chroma-qm-min 10" --final-params "--psy-rd 1.5 --complex-hvs 1 --luminance-qp-bias 20 --qm-min 8 --keyint -1 --tune 3 --spy-rd 2 --enable-dlf 2 --qp-scale-compress-strength 3 --chroma-qm-min 10 --lp 3"
 done
 
 # --- STEP 4: MUXING ---

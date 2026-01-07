@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+#!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
@@ -783,9 +783,10 @@ def calculate_metric() -> None:
             score = 0.0
 
             try:
-                # shell=True fixed the pipe issue previously
+                # shell=True is needed for Windows but can cause issues on Linux with list args behavior
+                use_shell = platform.system() == "Windows"
                 res = subprocess.run(
-                    cmd, capture_output=True, text=True, check=True, shell=True
+                    cmd, capture_output=True, text=True, check=True, shell=use_shell
                 )
 
                 output = res.stdout.strip()
