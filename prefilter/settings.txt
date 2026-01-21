@@ -1,25 +1,35 @@
+# Auto-Boost-Av1an Prefilter Settings
+# Edit these values to configure your prefilter scripts.
+
 [NVIDIA]
-; NVEncC VPP FFT3D Denoise settings (e.g., sigma=0.2)
-; Default: sigma=0.2
-vpp_fft3d=sigma=0.2
+# NVIDIA GPU Prefilter Settings (requires NVEncC)
+nvidia-downscale=False
+nvidia-downscale-filter=hermite
+nvidia-downscale-resolution=1920x1080
+nvidia-denoise=True
+nvidia-denoise-filter=vpp_fft3d=sigma=0.2
+nvidia-deband=True
+nvidia-deband-threshold=1
+nvidia-deband-radius=16
+
+[x265]
+# x265 CPU Prefilter Settings (VapourSynth + x265 lossless)
+x265-downscale=False
+x265-downscale-kernel=hermite
+x265-downscale-resolution=1920x1080
+x265-denoise=True
+x265-denoise-filter=DFTTest().denoise(src, {0.00:0.30, 0.40:0.30, 0.60:0.60, 0.80:1.50, 1.00:2.00}, planes=[0, 1, 2])
+x265-deband=False
+x265-deband-filter=core.placebo.Deband(src, threshold=2.0, planes=1)
+
+# =============================================================================
+# LEGACY SETTINGS (for backwards compatibility with older scripts)
+# =============================================================================
 
 [NVIDIA_DEBAND]
 ; NVEncC Libplacebo Deband settings
 ; Default: --vpp-libplacebo-deband threshold=1.0,radius=16
 filter_command=--vpp-libplacebo-deband threshold=1.0,radius=16
-
-[NVIDIA_DENOISE_DEBAND]
-; Chain: FFT3D Denoise -> Libplacebo Deband
-; Default Denoise: sigma=0.2
-; Default Deband: threshold=1.0,radius=16
-denoise_settings=sigma=0.2
-deband_settings=threshold=1.0,radius=16
-
-[x265]
-; VapourSynth Denoise Command
-; 'src' is the input clip variable name in the script.
-; Default: DFTTest().denoise(src, {0.00:0.30, 0.40:0.30, 0.60:0.60, 0.80:1.50, 1.00:2.00}, planes=[0, 1, 2])
-vapoursynth_denoise=DFTTest().denoise(src, {0.00:0.30, 0.40:0.30, 0.60:0.60, 0.80:1.50, 1.00:2.00}, planes=[0, 1, 2])
 
 [x265_DEBAND]
 ; VapourSynth Deband Command
@@ -28,11 +38,5 @@ vapoursynth_deband=core.placebo.Deband(src, threshold=1.0, planes=1)
 
 [x265_DENOISE_DEBAND]
 ; Chain: Denoise -> Deband
-; The script will automatically pipe the output of 'denoise' into 'deband'.
-; You can keep 'src' in both commands below; the script handles the variable replacement.
-
-; Default Denoise (DFTTest)
 vapoursynth_denoise=DFTTest().denoise(src, {0.00:0.30, 0.40:0.30, 0.60:0.60, 0.80:1.50, 1.00:2.00}, planes=[0, 1, 2])
-
-; Default Deband (Placebo)
 vapoursynth_deband=core.placebo.Deband(src, threshold=1.0, planes=1)
