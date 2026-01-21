@@ -37,13 +37,21 @@ for f in Input/*.mkv; do
     filename=$(basename -- "$f")
     stem="${filename%.*}"
     OUTPUT_FILE="Output/${stem}-av1.mkv"
+    SCENE_FILE="${f%.*}_scenedetect.json"
 
-    echo ""
-    echo "-------------------------------------------------------------------------------"
-    echo "Detecting scenes for \"$f\"..."
-    echo "-------------------------------------------------------------------------------"
-
-    python3 tools/Progressive-Scene-Detection.py -i "$f" -o "${f%.*}_scenedetect.json"
+    # --- Fast-pass: Use Progressive-Scene-Detection JSON to skip av1an scene detection ---
+    if [ -f "$SCENE_FILE" ]; then
+        echo ""
+        echo "-------------------------------------------------------------------------------"
+        echo "Scene JSON found for \"$f\" - skipping scene detection."
+        echo "-------------------------------------------------------------------------------"
+    else
+        echo ""
+        echo "-------------------------------------------------------------------------------"
+        echo "Detecting scenes for \"$f\"..."
+        echo "-------------------------------------------------------------------------------"
+        python3 tools/Progressive-Scene-Detection.py -i "$f" -o "$SCENE_FILE"
+    fi
 
     echo ""
     echo "-------------------------------------------------------------------------------"
@@ -52,7 +60,7 @@ for f in Input/*.mkv; do
 
     # Sports / High-Motion (CRF 33) Params
     # Uses --tf-strength 3 for better temporal filtering on fast motion content
-    python3 tools/dispatch.py -i "$f" -o "$OUTPUT_FILE" --scenes "${f%.*}_scenedetect.json" \
+    python3 tools/dispatch.py -i "$f" -o "$OUTPUT_FILE" --scenes "$SCENE_FILE" \
         --quality 33 \
         --autocrop \
         --ssimu2 "$SSIMU2_TOOL" \
