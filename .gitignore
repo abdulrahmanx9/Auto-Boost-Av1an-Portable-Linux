@@ -1,1 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 
+# Temporary/Output Folders
+Input/
+Output/
+.temp/
+*.log
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
