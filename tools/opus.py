@@ -49,6 +49,35 @@ if not OUTPUT_DIR.exists():
     except:
         pass
 
+# --- SETTINGS SETUP ---
+# Settings file is in 'audio-encoding'
+SETTINGS_FILE = ROOT_DIR / "audio-encoding" / "settings-encode-opus-audio.txt"
+
+
+def load_settings():
+    """Reads the settings file for bitrates. Returns a dictionary with defaults if missing."""
+    defaults = {"Above 5.1": "320", "5.1": "256", "2.1": "192", "2.0": "128"}
+
+    if not SETTINGS_FILE.exists():
+        # print(f"Warning: Settings file not found at {SETTINGS_FILE}. Using defaults.")
+        return defaults
+
+    try:
+        with open(SETTINGS_FILE, "r") as f:
+            for line in f:
+                line = line.strip()
+                if not line or "=" not in line:
+                    continue
+                key, val = line.split("=", 1)
+                defaults[key.strip()] = val.strip()
+    except Exception as e:
+        print(f"Error reading settings file: {e}. Using defaults.")
+
+    return defaults
+
+
+BITRATE_SETTINGS = load_settings()
+
 
 # Helper to find binaries
 def get_binary(name):
@@ -360,19 +389,38 @@ def worker_opus(slot_id):
         channels = get_audio_channels(input_file)
 
         # Bitrate Strategy
-        bitrate = "128"
+        bitrate = BITRATE_SETTINGS.get("2.0", "128")
+        display_ch = f"{channels}ch"
+
+        # Map nice display names
+        channel_map = {
+            "1": "1.0",
+            "2": "2.0",
+            "3": "2.1",
+            "4": "4.0",
+            "5": "5.0",
+            "6": "5.1",
+            "7": "6.1",
+            "8": "7.1",
+        }
+
         try:
             ch_int = int(channels)
-            if ch_int >= 8:
-                bitrate = "320"
+
+            # Use mapped name if available
+            if str(ch_int) in channel_map:
+                display_ch = f"{channel_map[str(ch_int)]}ch"
+
+            if ch_int > 6:
+                bitrate = BITRATE_SETTINGS.get("Above 5.1", "320")
             elif ch_int >= 6:
-                bitrate = "256"
-            elif ch_int >= 2:
-                bitrate = "128"
+                bitrate = BITRATE_SETTINGS.get("5.1", "256")
+            elif ch_int >= 3:
+                bitrate = BITRATE_SETTINGS.get("2.1", "192")
             else:
-                bitrate = "96"
+                bitrate = BITRATE_SETTINGS.get("2.0", "128")
         except:
-            bitrate = "128"
+            pass
 
         slot_status[slot_id] = f"{slot_id + 1}: [OPUS] {fname}.. Init"
 

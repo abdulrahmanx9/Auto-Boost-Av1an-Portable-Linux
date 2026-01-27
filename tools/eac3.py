@@ -45,7 +45,7 @@ SETTINGS_FILE = ROOT_DIR / "audio-encoding" / "settings-encode-eac3-audio.txt"
 
 def load_settings():
     """Reads the settings file for bitrates. Returns a dictionary with defaults if missing."""
-    defaults = {"Above 5.1": "640", "5.1": "448", "2.0": "224"}
+    defaults = {"Above 5.1": "640", "5.1": "448", "2.1": "320", "2.0": "224"}
 
     if not SETTINGS_FILE.exists():
         print(f"Warning: Settings file not found at {SETTINGS_FILE}. Using defaults.")
@@ -301,13 +301,35 @@ def worker_eac3(slot_id):
         slot_status[slot_id] = f"{slot_id + 1}: [EAC3] {fname}.. Probing"
         channels = get_audio_channels(input_file)
 
+        display_ch = f"{channels}ch"
+        # Map nice display names
+        channel_map = {
+            "1": "1.0",
+            "2": "2.0",
+            "3": "2.1",
+            "4": "4.0",
+            "5": "5.0",
+            "6": "5.1",
+            "7": "6.1",
+            "8": "7.1",
+        }
+
         bitrate_val = BITRATE_SETTINGS.get("2.0", "224")  # Default
+
         try:
             ch_int = int(channels)
+
+            # Use mapped name if available
+            if str(ch_int) in channel_map:
+                display_ch = f"{channel_map[str(ch_int)]}ch"
+
             if ch_int > 6:
                 bitrate_val = BITRATE_SETTINGS.get("Above 5.1", "640")
             elif ch_int >= 6:
                 bitrate_val = BITRATE_SETTINGS.get("5.1", "448")
+            elif ch_int >= 3:
+                # 2.1 Capability
+                bitrate_val = BITRATE_SETTINGS.get("2.1", "320")
             else:
                 bitrate_val = BITRATE_SETTINGS.get("2.0", "224")
         except:
@@ -317,7 +339,7 @@ def worker_eac3(slot_id):
         bitrate_str = f"{bitrate_val}k"
 
         slot_status[slot_id] = (
-            f"{slot_id + 1}: [EAC3] {fname}.. Init ({channels}ch @ {bitrate_str})"
+            f"{slot_id + 1}: [EAC3] {fname}.. Init ({display_ch} @ {bitrate_str})"
         )
 
         # FFMPEG Command: No FLAC intermediary, direct convert

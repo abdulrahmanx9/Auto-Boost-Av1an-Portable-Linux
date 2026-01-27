@@ -45,7 +45,7 @@ SETTINGS_FILE = ROOT_DIR / "audio-encoding" / "settings-encode-ac3-audio.txt"
 
 def load_settings():
     """Reads the settings file for bitrates. Returns a dictionary with defaults if missing."""
-    defaults = {"Above 5.1": "640", "5.1": "448", "2.0": "192"}
+    defaults = {"Above 5.1": "640", "5.1": "448", "2.1": "320", "2.0": "192"}
 
     if not SETTINGS_FILE.exists():
         print(f"Warning: Settings file not found at {SETTINGS_FILE}. Using defaults.")
@@ -308,6 +308,8 @@ def worker_ac3(slot_id):
                 bitrate_val = BITRATE_SETTINGS.get("Above 5.1", "640")
             elif ch_int >= 6:
                 bitrate_val = BITRATE_SETTINGS.get("5.1", "448")
+            elif ch_int >= 3:
+                bitrate_val = BITRATE_SETTINGS.get("2.1", "320")
             else:
                 bitrate_val = BITRATE_SETTINGS.get("2.0", "192")
         except:
