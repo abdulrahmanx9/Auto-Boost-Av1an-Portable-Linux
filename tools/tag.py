@@ -9,19 +9,72 @@ import shlex
 
 
 def get_script_version():
-    """Extracts the latest version number from readme.txt."""
-    readme_path = "readme.txt"
+    """Extracts the latest version number from Auto-Boost-Av1an.py or readme.txt."""
+    # First try Auto-Boost-Av1an.py
+    script_path = "Auto-Boost-Av1an.py"
     version = "Unknown"
-    if os.path.exists(readme_path):
+
+    if os.path.exists(script_path):
         try:
-            with open(readme_path, "r", encoding="utf-8") as f:
+            with open(script_path, "r", encoding="utf-8") as f:
                 content = f.read()
-                match = re.search(r"v(\d+\.\d+)", content)
+                # ver_str = "v2.9.20 (Clean UI)"
+                match = re.search(r'ver_str\s*=\s*"([^"]+)"', content)
                 if match:
-                    version = "v" + match.group(1)
-        except Exception as e:
+                    version = match.group(1).split(" ")[
+                        0
+                    ]  # Take "v2.9.20" from "v2.9.20 (Clean UI)"
+        except Exception:
             pass
+
+    if version == "Unknown":
+        readme_path = "readme.txt"
+        if os.path.exists(readme_path):
+            try:
+                with open(readme_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+                    match = re.search(r"v(\d+\.\d+)", content)
+                    if match:
+                        version = "v" + match.group(1)
+            except Exception:
+                pass
     return version
+
+
+def resolve_variables(val):
+    """
+    Resolves known shell variables like $SSIMU2_TOOL, $SSIMU2_WORKERS.
+    """
+    if not val or "$" not in val:
+        return val
+
+    # Common variables map
+    vars_map = {}
+
+    # Load SSIMU2 config if available
+    config_file = os.path.join("tools", "workercount-ssimu2.txt")
+    if os.path.exists(config_file):
+        try:
+            with open(config_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    if line.startswith("tool="):
+                        vars_map["SSIMU2_TOOL"] = line.split("=", 1)[1].strip()
+                    if line.startswith("workercount="):
+                        vars_map["SSIMU2_WORKERS"] = line.split("=", 1)[1].strip()
+        except:
+            pass
+
+    # Defaults if missing
+    if "SSIMU2_TOOL" not in vars_map:
+        vars_map["SSIMU2_TOOL"] = "vs-zip"  # Default fallback
+    if "SSIMU2_WORKERS" not in vars_map:
+        vars_map["SSIMU2_WORKERS"] = "4"
+
+    # Replace
+    for k, v in vars_map.items():
+        val = val.replace(f"${k}", v).replace(f"${{{k}}}", v)
+
+    return val
 
 
 def get_5fish_version():
@@ -118,7 +171,19 @@ def parse_batch_line(line):
         curr = raw_args[i]
 
         # 1. Structural arguments to EXCLUDE from the tag
-        if curr in ["-i", "--scenes", "--workers", "--temp"]:
+        # fast-speed is processed but usually excluded from general flags?
+        # Actually logic below adds flags unless handled.
+
+        # Arguments to skip (value is next)
+        if curr in [
+            "-i",
+            "--input",
+            "--scenes",
+            "--workers",
+            "--temp",
+            "-o",
+            "--output",
+        ]:
             i += 2
             continue
 
@@ -130,7 +195,7 @@ def parse_batch_line(line):
         # 3. Final Params: extract content
         if curr == "--final-params":
             if i + 1 < len(raw_args):
-                final_params = raw_args[i + 1]
+                final_params = resolve_variables(raw_args[i + 1])
                 i += 2
             else:
                 i += 1
@@ -148,7 +213,7 @@ def parse_batch_line(line):
                     and len(next_token) > 1
                     and next_token[1].isdigit()
                 ):
-                    val = next_token
+                    val = resolve_variables(next_token)
                     i += 2
                 else:
                     i += 1
