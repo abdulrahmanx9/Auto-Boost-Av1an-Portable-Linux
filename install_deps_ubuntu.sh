@@ -40,7 +40,7 @@ echo "Installing System Packages..."
 # Added build deps for VapourSynth (cython3, libzimg-dev) and python libs
 # Added x265 (CLI) for extras/lossless-intermediary and xclip for clipboard support 
 # Added build deps for SubText (meson, ninja-build, libass-dev)
-apt install -y software-properties-common ffmpeg x264 mkvtoolnix mkvtoolnix-gui python3 python3-pip git curl wget build-essential cmake pkg-config autoconf automake libtool yasm nasm clang libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavdevice-dev libavfilter-dev cython3 libzimg-dev python3-numpy python3-psutil python3-rich jq mediainfo opus-tools x265 xclip meson ninja-build libass-dev
+apt install -y software-properties-common ffmpeg x264 mkvtoolnix mkvtoolnix-gui python3 python3-pip git curl wget build-essential cmake pkg-config autoconf automake libtool yasm nasm clang libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavdevice-dev libavfilter-dev cython3 libzimg-dev python3-numpy python3-psutil python3-rich jq mediainfo opus-tools x265 xclip meson ninja-build libass-dev nvidia-cuda-toolkit
 
 # 3. Python Libraries (Install FIRST to allow source VS build to overwrite pip version)
 echo "Installing Python Libraries..."
@@ -164,6 +164,42 @@ else
     export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
     export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
     export LIBRARY_PATH="/usr/local/lib:$LIBRARY_PATH"
+fi
+
+# 5b. vship / FFVship (GPU-accelerated SSIMULACRA2)
+if ! command -v FFVship &> /dev/null; then
+    echo "=========================================================="
+    echo "Compiling FFVship (Line-fr/Vship) from Source..."
+    echo "=========================================================="
+    
+    if [ -d "Vship" ]; then rm -rf Vship; fi
+    git clone https://github.com/Line-fr/Vship.git
+    cd Vship
+    
+    # Check for NVCC (NVIDIA)
+    if command -v nvcc &> /dev/null; then
+        echo "Detected NVIDIA NVCC. Building for CUDA..."
+        make buildcuda
+    elif command -v hipcc &> /dev/null; then
+        echo "Detected AMD HIPCC. Building for HIP..."
+        make build
+    else
+        echo "Warning: Neither nvcc nor hipcc found. Attempting CUDA build anyway (might fail if not in PATH)..."
+        make buildcuda
+    fi
+
+    # Build the CLI tool
+    echo "Building FFVship CLI..."
+    make buildFFVSHIP
+
+    # Install
+    echo "Installing to /usr/local..."
+    make install PREFIX=/usr/local
+
+    cd ..
+    # rm -rf Vship # Optional: cleanup
+else
+    echo "FFVship is already installed."
 fi
 
 # 5a. oxipng (PNG Optimizer for compare script - v1.46)
