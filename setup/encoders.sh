@@ -50,7 +50,7 @@ install_encoders() {
         log_info "Compiling FFVship..."
         
         if [ -d "Vship" ]; then rm -rf Vship; fi
-        git clone https://github.com/Line-fr/Vship.git
+        git clone https://codeberg.org/Line-fr/Vship.git
         cd Vship
         
         if command -v nvcc &> /dev/null; then
@@ -58,8 +58,8 @@ install_encoders() {
         elif command -v hipcc &> /dev/null; then
             make build
         else
-            log_warn "Neither nvcc nor hipcc found. Attempting CUDA build anyway."
-            make buildcuda
+            log_warn "Neither nvcc nor hipcc found. Attempting Vulkan build."
+            make buildVulkan
         fi
 
         log_info "Building FFVship CLI..."
