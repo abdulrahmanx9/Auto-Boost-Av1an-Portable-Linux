@@ -13,7 +13,7 @@ install_ffvship() {
         cd build_tmp || exit 1
 
         if [ -d "Vship" ]; then rm -rf Vship; fi
-        git clone https://github.com/Line-fr/Vship.git || { log_error "Failed to clone Vship"; cd ..; return 1; }
+        git clone https://codeberg.org/Line-fr/Vship.git || { log_error "Failed to clone Vship"; cd ..; return 1; }
         cd Vship || { log_error "Failed to cd into Vship"; cd ..; cd ..; return 1; }
         
         if command -v nvcc &> /dev/null; then
@@ -21,8 +21,8 @@ install_ffvship() {
         elif command -v hipcc &> /dev/null; then
             make build || { log_error "FFVship build failed"; cd ..; cd ..; return 1; }
         else
-            log_warn "Neither nvcc nor hipcc found. Attempting CUDA build anyway."
-            make buildcuda || { log_error "FFVship buildcuda failed (no compiler?)"; cd ..; cd ..; return 1; }
+            log_warn "Neither nvcc nor hipcc found. Attempting Vulkan build."
+            make buildVulkan || { log_error "FFVship buildVulkan failed (no Vulkan SDK?)"; cd ..; cd ..; return 1; }
         fi
 
         make buildFFVSHIP || { log_error "FFVship make buildFFVSHIP failed"; cd ..; cd ..; return 1; }
