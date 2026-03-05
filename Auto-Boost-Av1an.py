@@ -1624,7 +1624,9 @@ def calculate_zones_json(ranges: list[float], hr: bool, nframe: int) -> None:
                     "encoder": "svt_av1",
                     "passes": 1,
                     "video_params": s["video_params"],
-                    "photon_noise": s["photon_noise"],
+                    "photon_noise": None
+                    if s["photon_noise"] in [0, "0"]
+                    else s["photon_noise"],
                     "photon_noise_height": None,
                     "photon_noise_width": None,
                     "chroma_noise": False,
