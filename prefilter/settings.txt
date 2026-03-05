@@ -1,4 +1,4 @@
-# Auto-Boost-Av1an Prefilter Settings
+﻿# Auto-Boost-Av1an Prefilter Settings
 # Edit these values to configure your prefilter scripts.
 
 [NVIDIA]

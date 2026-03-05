@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Light Denoise (NVIDIA GPU) for Linux
 # -------------------------------------
 # Applies a light denoise using NVEncC (--vpp-fft3d sigma=0.2)

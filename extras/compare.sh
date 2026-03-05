@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Auto-Boost-Av1an: Comparison Script
 # Runs VapourSynth comparison via tools/comp.py
 

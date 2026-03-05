@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to the Linux Port of Auto-Boost-Av1an will be documented in this file.
 

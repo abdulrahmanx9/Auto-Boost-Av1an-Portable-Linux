@@ -1,4 +1,4 @@
-# Audio Encoding Tools (Linux)
+﻿# Audio Encoding Tools (Linux)
 
 This folder contains batch scripts for converting audio tracks to various formats independently of video encoding.
 

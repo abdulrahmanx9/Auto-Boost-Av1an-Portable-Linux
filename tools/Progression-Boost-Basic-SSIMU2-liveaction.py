@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 
 # Progression Boost
 # Copyright (c) Akatsumekusa and contributors

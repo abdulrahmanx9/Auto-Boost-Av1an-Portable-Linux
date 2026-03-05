@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Wrapper script for Light Denoise Tool
 # Uses x265 (lossless) and DFTTest (VapourSynth)
 

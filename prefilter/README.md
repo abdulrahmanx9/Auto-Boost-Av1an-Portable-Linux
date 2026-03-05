@@ -1,4 +1,4 @@
-# Auto-Boost-Av1an Prefilter Scripts (Linux)
+﻿# Auto-Boost-Av1an Prefilter Scripts (Linux)
 
 This folder contains prefiltering scripts for applying denoise, deband, and downscale filters 
 before encoding with Auto-Boost-Av1an.

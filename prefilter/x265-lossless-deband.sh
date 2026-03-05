@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Auto-Boost-Av1an: x265 Lossless Deband Script
 # Applies VapourSynth placebo deband filter with x265 lossless encoding
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # Notepad++ is suggested for editing this file.
 ssimu2_quality="82"

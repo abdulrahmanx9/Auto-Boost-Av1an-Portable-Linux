@@ -1,4 +1,4 @@
-# Auto-Boost-Av1an for Ubuntu
+﻿# Auto-Boost-Av1an for Ubuntu
 
 This guide explains how to set up and run Auto-Boost-Av1an on Ubuntu.
 

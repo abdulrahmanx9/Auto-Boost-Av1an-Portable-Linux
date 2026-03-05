@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Mux Script - Linux Port
 Muxes AV1 encoded video with audio/subs from source.

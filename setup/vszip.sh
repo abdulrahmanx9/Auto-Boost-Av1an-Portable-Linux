@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # Source common functions if not already sourced
 if [ -z "$COMMON_SOURCED" ]; then

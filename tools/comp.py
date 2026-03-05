@@ -1,4 +1,4 @@
-r"""
+﻿r"""
 I do not provide support for this unless its an actual error in the code and not related to your setup.
 This script was originally written for VS R53 and Python 3.9, and has been tested on VS R65 and Python 3.11.
 

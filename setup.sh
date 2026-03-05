@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # Auto-Boost-Av1an Setup Script
 # Modularized Installer with Dependency Resolution
