@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # Source common functions if not already sourced
 if [ -z "$COMMON_SOURCED" ]; then
@@ -27,6 +27,11 @@ install_svt_av1() {
         if [ -d "svt-av1-psy" ]; then rm -rf svt-av1-psy; fi
         git clone --branch v2.3.0-C --depth 1 https://github.com/5fish/svt-av1-psy.git || { log_error "Failed to clone SVT-AV1-PSY"; cd ..; return 1; }
         cd svt-av1-psy || { log_error "Failed to cd into svt-av1-psy"; cd ..; cd ..; return 1; }
+        
+        # Patch CMakeLists to fix 'target_link_libraries' PRIVATE/keyword mismatch error
+        sed -i 's/\r$//' Source/App/CMakeLists.txt
+        sed -i 's/target_link_libraries(SvtAv1EncApp ${PLATFORM_LIBS})/target_link_libraries(SvtAv1EncApp PRIVATE ${PLATFORM_LIBS})/' Source/App/CMakeLists.txt
+        sed -i 's/target_link_libraries(SvtAv1EncApp$/target_link_libraries(SvtAv1EncApp PRIVATE/' Source/App/CMakeLists.txt
         
         mkdir -p Build/linux
         cd Build/linux || { log_error "Failed to cd into Build/linux"; cd ..; cd ..; cd ..; return 1; }
