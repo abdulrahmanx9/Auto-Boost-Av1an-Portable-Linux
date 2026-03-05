@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Forced Aspect Ratio Remuxer for Linux
 # --------------------------------------
 # Use this script after AV1 encoding is complete.

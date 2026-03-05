@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 VSPreview Dispatch Script - Linux Port
 Generates a VPY script for multiple MKV files and launches vspreview.

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Deband using VapourSynth + x265 Lossless
 Linux Port: Uses system FFmpeg and x265

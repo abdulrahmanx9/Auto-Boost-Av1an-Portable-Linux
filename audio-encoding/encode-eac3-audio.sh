@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Audio Encoder (EAC3) for Linux
 # ------------------------------
 # Place mkv files in this folder to process them.

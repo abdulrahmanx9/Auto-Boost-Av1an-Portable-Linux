@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # av1an-batch-anime-crf30.sh
 # Direct Av1an encode — Anime CRF 30, single pass (no Auto-Boost).

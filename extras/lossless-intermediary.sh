@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Auto-Boost-Av1an: Lossless Intermediary Workflow
 # Creates lossless intermediate files for editing/processing
 

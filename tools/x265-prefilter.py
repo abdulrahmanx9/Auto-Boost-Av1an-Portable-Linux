@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 x265 Prefilter Script - Linux Port
 Combined script for applying filters (Denoise/Deband/Downscale) using VapourSynth and x265.

@@ -1,4 +1,4 @@
-﻿# Auto-Boost-Av1an Extras (Linux)
+# Auto-Boost-Av1an Extras (Linux)
 
 This folder contains helper scripts for additional workflows.
 

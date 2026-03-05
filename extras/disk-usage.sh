@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Disk Usage Checker for Linux
 # -----------------------------
 # Note: NTFS "compact" compression is Windows-only.

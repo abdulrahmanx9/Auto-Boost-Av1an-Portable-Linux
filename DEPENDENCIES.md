@@ -1,4 +1,4 @@
-﻿# Auto-Boost-Av1an Dependencies (Linux)
+# Auto-Boost-Av1an Dependencies (Linux)
 
 This project relies on the following specific versions and forks of software. The `install_deps_ubuntu.sh` script installs these automatically.
 

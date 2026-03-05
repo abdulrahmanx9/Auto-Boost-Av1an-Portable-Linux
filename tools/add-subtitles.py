@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Add Subtitles Script - Linux Port
 Muxes subtitles (.ass/.srt) and fonts (.ttf/.otf) into MKV files.

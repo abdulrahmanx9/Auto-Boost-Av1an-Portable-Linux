@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Auto-Boost-Av1an: NVIDIA Deband Script
 # Applies libplacebo deband filter using NVEncC (NVIDIA GPU required)
 

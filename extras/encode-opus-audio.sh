@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Auto-Boost-Av1an: Opus Audio Encoder Workflow
 # Converts audio in MKV files to Opus format using tools/opus.py
 

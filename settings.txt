@@ -1,4 +1,4 @@
-﻿# Auto-Boost-Av1an Settings File
+# Auto-Boost-Av1an Settings File
 # Edit this file with your preferred text editor.
 
 # Only the live action scripts have cropping enabled by default using --autocrop.

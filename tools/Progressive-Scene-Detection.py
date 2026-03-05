@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 
 # Progressive Scene Detection
 # Copyright (c) Akatsumekusa and contributors

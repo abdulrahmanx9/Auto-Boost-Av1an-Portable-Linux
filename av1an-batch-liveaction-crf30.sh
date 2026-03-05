@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # av1an-batch-liveaction-crf30.sh
 # Direct Av1an encode — Live Action CRF 30, single pass (no Auto-Boost).

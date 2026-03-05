@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Deband using NVEncC (NVIDIA GPU required)
 Linux Port: Uses system FFmpeg for muxing instead of MKVToolNix

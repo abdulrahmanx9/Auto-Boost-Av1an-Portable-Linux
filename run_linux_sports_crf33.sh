@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # Auto-Boost-Av1an: Sports / High-Motion Content (CRF 33)
 # Optimized for high-motion content with extra temporal filtering
