@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
@@ -46,8 +46,10 @@ import sys
 import gc
 import os
 import re
+
 try:
     import wakepy
+
     _wakepy_available = True
 except ImportError:
     _wakepy_available = False
@@ -810,12 +812,14 @@ def fast_pass() -> None:
     if external_scenes_file:
         av1an_cmd.extend(["-s", str(external_scenes_file)])
 
-    av1an_cmd.extend([
-        "-v",
-        encoder_params,
-        "-o",
-        fast_output_file.name,  # Just the filename
-    ])
+    av1an_cmd.extend(
+        [
+            "-v",
+            encoder_params,
+            "-o",
+            fast_output_file.name,  # Just the filename
+        ]
+    )
 
     print("-" * 50)
     print(f"Running Fast Pass in: {obscure_user_path(str(tmp_dir))}")
