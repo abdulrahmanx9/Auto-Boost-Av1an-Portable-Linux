@@ -1,0 +1,11 @@
+# Force LF line endings for all shell scripts and Python files
+*.sh    text eol=lf
+*.py    text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+*.json  text eol=lf
+
+# Binary files — no conversion
+*.mkv   binary
+*.mp4   binary
+*.opus  binary
